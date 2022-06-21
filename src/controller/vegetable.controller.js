@@ -1,0 +1,66 @@
+const express = require("express");
+const Vegetables = require("../models/vegetable.module");
+const router = express.Router();
+const path = require("path");
+
+router.get("", async (req, res) => {
+  try {
+    const vegetables = await Vegetables.find().lean().exec();
+    return res.send(vegetables);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.post("", async (req, res) => {
+  try {
+    const vegetables = await Vegetables.create(req.body);
+    return res.send(vegetables);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const Vegetables = await Vegetables.findById(req.params.id).lean().exec();
+
+    if (Vegetables) {
+      return res.send(Vegetables);
+    } else {
+      return res.status(404).send({ message: "User not found" });
+    }
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
+// met + route => patch /users/${variable} and the name of variable is id
+router.patch("/:id", async (req, res) => {
+  try {
+    const vegetablea = await Vegetables.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
+      .lean()
+      .exec();
+
+    res.status(201).send(Vegetables);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
+// met + route => delete /users/${variable} and the name of variable is id
+router.delete("/:id", async (req, res) => {
+  try {
+    const vegetables = await Vegetables.findByIdAndDelete(req.params.id)
+      .lean()
+      .exec();
+
+    res.send(vegetables);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
+module.exports = router;

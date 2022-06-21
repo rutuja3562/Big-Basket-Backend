@@ -6,11 +6,11 @@ const app = express();
 app.use(express.json())
 app.use(cors());
 
-const userController = require("./controller/user.controller")
+// const userController = require("./controller/user.controller")
+const vegetableController = require("./controller/vegetable.controller")
 const vegetableCartController = require("./controller/vegetablecart.Controller")
-app.use("/collection", userController)
+app.use("/vegetables", vegetableController);
 app.use("/vegetablecart",vegetableCartController)
-
 
 app.listen(7005, async () => {
     try {

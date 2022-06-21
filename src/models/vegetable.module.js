@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const  vegetableSchema= new mongoose.Schema(
+const vegetableSchema = new mongoose.Schema(
   {
     id: { type: Number, required: true },
     imgUrl: { type: String, required: true },
@@ -14,5 +14,5 @@ const  vegetableSchema= new mongoose.Schema(
   }
 );
 
-// module.exports = mongoose.model("vegetables", vegetableSchema);
+module.exports = mongoose.model("vegetables", vegetableSchema);
 // brand:{type:String, required:true},
