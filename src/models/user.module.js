@@ -15,4 +15,3 @@ const  vegetableSchema= new mongoose.Schema(
 );
 
 // module.exports = mongoose.model("vegetables", vegetableSchema);
-// brand:{type:String, required:true},

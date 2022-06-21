@@ -15,4 +15,3 @@ const vegitablesCartSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("vegitablesCart", vegitablesCartSchema);
-// brand:{type:String, required:true},
