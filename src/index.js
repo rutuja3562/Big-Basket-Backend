@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(cors());
 
 const vegetableController = require("./controller/vegetable.controller")
-const vegetableCartController = require("./controller/vegetablecart.Controller")
+const vegetableCartController = require("./controller/vegetablecart.controller")
 app.use("/vegetables", vegetableController);
 app.use("/vegetablecart",vegetableCartController)
 
