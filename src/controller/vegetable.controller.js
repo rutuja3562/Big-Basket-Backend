@@ -1,5 +1,5 @@
 const express = require("express");
-const Vegetables = require("../models/Vegetable.module")
+const Vegetables = require("../models/vegetable.module")
 const router = express.Router();
 const path = require("path");
 
