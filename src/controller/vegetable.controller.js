@@ -1,5 +1,5 @@
 const express = require("express");
-const Vegetables = require("../models/Vegetablecart.modul")
+const Vegetables = require("../models/Vegetable.module")
 const router = express.Router();
 const path = require("path");
 
@@ -23,10 +23,10 @@ router.post("", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const Vegetables = await Vegetables.findById(req.params.id).lean().exec();
+    const vegetables = await Vegetables.findById(req.params.id).lean().exec();
 
-    if (Vegetables) {
-      return res.send(Vegetables);
+    if (vegetables) {
+      return res.send(vegetables);
     } else {
       return res.status(404).send({ message: "User not found" });
     }
@@ -38,13 +38,13 @@ router.get("/:id", async (req, res) => {
 // met + route => patch /users/${variable} and the name of variable is id
 router.patch("/:id", async (req, res) => {
   try {
-    const vegetablea = await Vegetables.findByIdAndUpdate(req.params.id, req.body, {
+    const vegetable = await Vegetables.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     })
       .lean()
       .exec();
 
-    res.status(201).send(Vegetables);
+    res.status(201).send(vegetable);
   } catch (err) {
     return res.status(500).send(err.message);
   }
