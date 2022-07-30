@@ -1,12 +1,24 @@
 const express = require("express");
-const Vegetables = require("../models/vegetable.module")
+const Vegetables = require("../models/vegetable.module");
 const router = express.Router();
 const path = require("path");
 
 router.get("", async (req, res) => {
   try {
-    const vegetables = await Vegetables.find().lean().exec();
-    return res.send(vegetables);
+    const page = req.query.page;
+    const pagesize = req.query.pagesize;
+    const skip = (page - 1) * pagesize;
+    // var sort=req.query.brand;
+    // console.log(sort)
+    // const order=req.query.order;
+    //  var mysort = { sort:1 };
+    const vegetables = await Vegetables.find()
+      .skip(skip)
+      .limit(pagesize)
+      .lean()
+      .exec();
+      const totalpage = Math.ceil((await Vegetables.find().countDocuments())/pagesize);
+    return res.send({vegetables,totalpage});
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -38,9 +50,13 @@ router.get("/:id", async (req, res) => {
 // met + route => patch /users/${variable} and the name of variable is id
 router.patch("/:id", async (req, res) => {
   try {
-    const vegetable = await Vegetables.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    })
+    const vegetable = await Vegetables.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    )
       .lean()
       .exec();
 
