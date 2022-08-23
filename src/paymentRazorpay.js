@@ -41,15 +41,14 @@
 //   }
 // });
 
-// module.exports = router;
-const express = require("express");
+// module.exports = router;const express = require("express");
 const path = require("path");
 require("dotenv").config();
-const router = express.Router();
+const router=express.Router()
+
 
 const shortid = require("shortid");
 const Razorpay = require("razorpay");
-
 
 const razorpay = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -57,13 +56,11 @@ const razorpay = new Razorpay({
 });
 
 // Serving company logo
-router.get("", (req, res) => {
-  ///////////////////////logo
+router.get("", (req, res) => {            ///////////////////////logo
   res.sendFile(path.join(__dirname, "pay.jpg"));
 });
 
-router.post("", async (req, res) => {
-  ////////razorpay
+router.post("", async (req, res) => {            ////////razorpay
   const payment_capture = 1;
   const amount = req.query.price;
   const currency = "INR";
@@ -89,3 +86,4 @@ router.post("", async (req, res) => {
 });
 
 module.exports = router;
+

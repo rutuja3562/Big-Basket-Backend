@@ -10,8 +10,7 @@ app.use(cors());
 
 const vegetableController = require("./controller/vegetable.controller")
 const vegetableCartController = require("./controller/vegetablecart.controller")
-// const payment = require("./paymentRozerpay");
-const payment=require("./paymentRazorpay")
+const payment = require("./paymentRazorpay")
 
 app.use("/logo", payment);
 app.use("/razorpay", payment);
