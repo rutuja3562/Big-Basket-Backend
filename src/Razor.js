@@ -12,13 +12,15 @@ const razorpay = new Razorpay({
 });
 
 router.get("", (req, res) => {
-  res.sendFile(path.join(__dirname, "paymemtlogo.jpg"));
+  res.sendFile(path.join(__dirname, "paymentlogo.jpg"));
 });
 
 router.post("", async (req, res) => {
   const payment_capture = 1;
-  const amount = req.query.price;
+  //   const amount = req.query.price;
+  const amount = 499;
   const currency = "INR";
+
   const options = {
     amount: amount * 100,
     currency,
@@ -28,7 +30,7 @@ router.post("", async (req, res) => {
 
   try {
     const response = await razorpay.orders.create(options);
-    console.log(response);
+    console.log("LL", response);
     res.json({
       id: response.id,
       currency: response.currency,
