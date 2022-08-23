@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const connect = require("./configs/db");
+const path =require("path")
 const app = express();
 
 const port=process.env.PORT||7005
@@ -12,7 +13,10 @@ const vegetableController = require("./controller/vegetable.controller")
 const vegetableCartController = require("./controller/vegetablecart.controller")
 const payment = require("./paymentRazorpay")
 
-app.use("/logo", payment);
+app.get("/logo", (req, res) => {
+  res.sendFile(path.join(__dirname, "pay.jpg"));
+});
+
 app.use("/razorpay", payment);
 app.use("/vegetables", vegetableController);
 app.use("/vegetablecart",vegetableCartController)
