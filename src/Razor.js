@@ -59,7 +59,7 @@ const razorpay = new Razorpay({
 // Serving company logo
 router.get("", (req, res) => {
   ///////////////////////logo
-  res.sendFile(path.join(__dirname, "pay.jpg"));
+  res.sendFile(path.join(__dirname, "paymentlogo.jpg"));
 });
 
 router.post("", async (req, res) => {
