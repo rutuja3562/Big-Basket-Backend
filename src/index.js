@@ -12,12 +12,13 @@ app.use(cors());
 const vegetableController = require("./controller/vegetable.controller")
 const vegetableCartController = require("./controller/vegetablecart.controller")
 const payment = require("./paymentRazorpay")
-
+const razorPayController = require("./controller/Pay.controller")
 app.get("/logo", (req, res) => {
   res.sendFile(path.join(__dirname, "pay.jpg"));
 });
 
 app.use("/razorpay", payment);
+app.use("/rasor", razorPayController);
 app.use("/vegetables", vegetableController);
 app.use("/vegetablecart",vegetableCartController)
 

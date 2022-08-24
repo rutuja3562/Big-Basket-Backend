@@ -19,6 +19,7 @@ router.post("", async (req, res) => {
   const amount = req.query.price;
   const currency = "INR";
 
+
   const options = {
     amount: (amount * 100).toString(),
     currency,
