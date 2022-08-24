@@ -12,9 +12,13 @@ router.get("", async (req, res) => {
     // console.log(sort)
     // const order=req.query.order;
     //  var mysort = { sort:1 };
-    const vegetables = await Vegetables.find().lean().exec();
-      // const totalpage = Math.ceil((await Vegetables.find().countDocuments())/pagesize);
-    return res.send(vegetables);
+    const vegetables = await Vegetables.find()
+      .skip(skip)
+      .limit(pagesize)
+      .lean()
+      .exec();
+      const totalpage = Math.ceil((await Vegetables.find().countDocuments())/pagesize);
+    return res.send({vegetables,totalpage});
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
