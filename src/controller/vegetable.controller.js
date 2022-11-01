@@ -5,16 +5,48 @@ const path = require("path");
 
 router.get("", async (req, res) => {
   try {
-    const page = req.query.page;
-    const pagesize = req.query.pagesize;
-    const skip = (page - 1) * pagesize;
-    // var sort=req.query.brand;
-    // console.log(sort)
-    // const order=req.query.order;
-    //  var mysort = { sort:1 };
-    const vegetables = await Vegetables.find().lean().exec();
-    // const totalpage = Math.ceil((await Vegetables.find().countDocuments())/pagesize);
-    return res.send(vegetables);
+    const page = req.query.page - 1;
+    const limit = req.query.limit || 40;
+    let brand = req.query.brand || "all";
+    let sort = req.query.sort || "price";
+    let order = req.query.order || "desc";
+    const brandOptions = ["Fresho", "Organic", "Brotos", "Hoovu Fresh"];
+
+    //*****Filtering*****//
+    brand === "all"
+      ? (brand = [...brandOptions])
+      : (brand = req.query.brand.split(","));
+    //*****Filtering*****//
+    // console.log("brand", brand);
+    //*****Sorting*****//
+    const _sort = {};
+    if (sort && order) {
+      _sort[sort] = order === "desc" ? -1 : 1;
+    }
+    //*****Sorting*****//
+
+    //***** Searching *****//
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { brand: { $regex: req.query.search, $options: "i" } },
+            { title: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    //*****Searching*****//
+    const vegetables = await Vegetables.find(keyword)
+      .sort(_sort)
+      .skip(page * limit)
+      .limit(limit)
+      .where("brand")
+      .in([...brand]);
+    // console.log("fruits",fruits)
+    const totalPages = Math.ceil(
+      (await Vegetables.find().countDocuments()) / limit
+    );
+    return res.send({ vegetables, totalPages });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
