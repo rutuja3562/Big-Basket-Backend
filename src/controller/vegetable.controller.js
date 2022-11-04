@@ -11,13 +11,22 @@ router.get("", async (req, res) => {
     let sort = req.query.sort || "price";
     let order = req.query.order || "desc";
     const brandOptions = ["Fresho", "Organic", "Brotos", "Hoovu Fresh"];
+    let price_gte = req.query.price_gte || "price";
+    let _gte = req.query._gte || 0;
+    let _lte = req.query._lte || 1000;
+    let quantity = req.query.quantity || "all";
+    let quantityOptions = [1, 2, 40, 100, 250];
 
     //*****Filtering*****//
+    console.log("price", price_gte);
     brand === "all"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
+    quantity === "all"
+      ? (quantity = [...quantityOptions])
+      : (quantity = req.query.quantity.split(","));
     //*****Filtering*****//
-    // console.log("brand", brand);
+
     //*****Sorting*****//
     const _sort = {};
     if (sort && order) {
@@ -37,11 +46,17 @@ router.get("", async (req, res) => {
 
     //*****Searching*****//
     const vegetables = await Vegetables.find(keyword)
-      .sort(_sort)
-      .skip(page * limit)
-      .limit(limit)
-      .where("brand")
-      .in([...brand]);
+    .sort(_sort)
+    .skip(page * limit)
+    .limit(limit)
+    .where("brand")
+    .in([...brand])
+    .where("quantity")
+    .in([...quantity])
+    .where(price_gte)
+    .gte(_gte)
+    .lte(_lte);
+
     // console.log("fruits",fruits)
     const totalPages = Math.ceil(
       (await Vegetables.find().countDocuments()) / limit
