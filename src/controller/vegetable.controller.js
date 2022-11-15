@@ -21,10 +21,10 @@ router.get("", async (req, res) => {
     console.log("price", price_gte);
     brand === "all"
       ? (brand = [...brandOptions])
-      : (brand = req.query.brand.split(","));
+      : (brand = req.query.brand)
     quantity === "all"
       ? (quantity = [...quantityOptions])
-      : (quantity = req.query.quantity.split(","));
+      : (quantity = req.query.quantity);
     //*****Filtering*****//
 
     //*****Sorting*****//
@@ -46,16 +46,16 @@ router.get("", async (req, res) => {
 
     //*****Searching*****//
     const vegetables = await Vegetables.find(keyword)
-    .sort(_sort)
-    .skip(page * limit)
-    .limit(limit)
-    .where("brand")
-    .in([...brand])
-    .where("quantity")
-    .in([...quantity])
-    .where(price_gte)
-    .gte(_gte)
-    .lte(_lte);
+      .sort(_sort)
+      .skip(page * limit)
+      .limit(limit)
+      .where("brand")
+      .in([...brand])
+      .where("quantity")
+      .in([...quantity])
+      .where(price_gte)
+      .gte(_gte)
+      .lte(_lte);
 
     // console.log("fruits",fruits)
     const totalPages = Math.ceil(
