@@ -29,9 +29,12 @@ router.get("", async (req, res) => {
 
     //*****Sorting*****//
     const _sort = {};
+    console.log("order...",order[0])
     if (sort && order) {
-      _sort[sort] = order === "desc" ? -1 : 1;
+      _sort[sort] = order[0] == 'desc'? -1 : 1;
+      console.log("sort",_sort[sort])
     }
+
     //*****Sorting*****//
 
     //***** Searching *****//
@@ -57,7 +60,7 @@ router.get("", async (req, res) => {
       .gte(_gte)
       .lte(_lte);
 
-    // console.log("fruits",fruits)
+    // console.log("fruits",vegetables)
     const totalPages = Math.ceil(
       (await Vegetables.find().countDocuments()) / limit
     );
