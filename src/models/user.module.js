@@ -1,17 +1,27 @@
-const mongoose = require("mongoose");
 
-const  vegetableSchema= new mongoose.Schema(
-  {
-    id: { type: Number, required: true },
-    imgUrl: { type: String, required: true },
-    brand: { type: String, required: true },
-    title: { type: String, required: true },
-    price: { type: Number, required: true },
-    quantity: { type: Number, required: true },
-  },
-  {
-    versionKey: false,
-  }
-);
+const mongoose = require("mongoose")
+const bcrypt = require("bcrypt")
+const userSchema = new mongoose.Schema({
+    email : {type : String, required : true, unique:true},
+    password : {type : String, required : true},
+    
+},{
+    timestamps : false,
+    versionKey : false,
+})
 
-// module.exports = mongoose.model("vegetables", vegetableSchema);
+userSchema.pre("save", function(next){
+    const hash = bcrypt.hashSync(this.password, 8);
+    this.password = hash;
+    return next();
+})
+
+userSchema.methods.checkPassword = function(password){
+    return bcrypt.compareSync(password, this.password);
+}
+
+const User = mongoose.model("user", userSchema)
+
+module.exports = User;
+
+

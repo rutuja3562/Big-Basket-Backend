@@ -9,14 +9,20 @@ const port=process.env.PORT||7005
 app.use(express.json())
 app.use(cors());
 
+const userController = require("./controller/user.controller")
 const vegetableController = require("./controller/vegetable.controller")
 const vegetableCartController = require("./controller/vegetablecart.controller")
 const payment = require("./paymentRazorpay")
 const razorPayController = require("./controller/Pay.controller")
+const {register,login, generateToken} = require("./controller/auth.controller")
+
 app.get("/logo", (req, res) => {
   res.sendFile(path.join(__dirname, "pay.jpg"));
 });
 
+app.use("/users", userController)
+app.post("/register", register)
+app.post("/login", login)
 app.use("/razorpay", payment);
 app.use("/rasor", razorPayController);
 app.use("/vegetables", vegetableController);
