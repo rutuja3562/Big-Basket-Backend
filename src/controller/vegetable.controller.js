@@ -29,9 +29,9 @@ router.get("", async (req, res) => {
 
     //*****Sorting*****//
     const _sort = {};
-    console.log("order...",order[0])
+    console.log("order...",order)
     if (sort && order) {
-      _sort[sort] = order[0] == 'desc'? -1 : 1;
+      _sort[sort] = order == 'desc'? -1 : 1;
       console.log("sort",_sort[sort])
     }
 
@@ -64,6 +64,7 @@ router.get("", async (req, res) => {
     const totalPages = Math.ceil(
       (await Vegetables.find().countDocuments()) / limit
     );
+    console.log(vegetables)
     return res.send({ vegetables, totalPages });
   } catch (err) {
     return res.status(500).send({ message: err.message });
