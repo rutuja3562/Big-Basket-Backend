@@ -20,6 +20,7 @@
     "mongoose": "^6.2.1",
     "nodemon": "^2.0.16",
     "razorpay": "^2.8.2",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "text-encoding": "^0.7.0"
   }
 }
